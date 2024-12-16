@@ -1,2 +1,13 @@
-2024-12-13 15:37:52,490 - Usuário escolheu: PAINEL - Subcategoria 1.2
-2024-12-13 15:37:58,330 - Sistema encerrado pelo usuário.
+import logging
+
+# Configurando o logger
+logging.basicConfig(filename="log_suporte.log", level=logging.INFO, format="%(asctime)s - %(message)s")
+
+def salvar_log(mensagem):
+    logging.info(mensagem)  # Salva no arquivo de log
+    conn = conectar_banco()
+    cursor = conn.cursor()
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    cursor.execute('''INSERT INTO logs (mensagem, timestamp) VALUES (?, ?)''', (mensagem, timestamp))
+    conn.commit()
+    conn.close()

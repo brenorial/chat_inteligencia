@@ -1,11 +1,17 @@
-# Use a imagem base oficial do Python
-FROM python:3.9-slim
+# Utiliza uma imagem base do Python
+FROM python:3.9
 
 # Define o diretório de trabalho
 WORKDIR /app
 
-# Copia o código para o container
-COPY sistema_ia.py /app/sistema_ia.py
+# Copia os arquivos necessários para dentro do container
+COPY . /app
 
-# Define o comando padrão ao iniciar o container
-CMD ["python", "sistema_ia.py"]
+# Instala as dependências
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Expõe a porta da aplicação
+EXPOSE 8000
+
+# Executa o comando para iniciar o app
+CMD ["python", "app.py"]

@@ -3,9 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAQ - Assistente Técnico</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>FAQ Interativo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos Gerais */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-weight: 700;
+        }
+
+        label {
+            font-size: 18px;
+            color: #333;
+            margin: 10px 0;
+            display: block;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Estilo para esconder o 'subnúmero' até que o 'tópico' seja selecionado */
+        .hidden {
+            display: none;
+        }
+
+        .loading {
+            font-size: 18px;
+            text-align: center;
+            color: #555;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>FAQ - Pergunt
+
+<div class="container">
+    <h1>FAQ - Selecione seu Tópico</h1>
+
+    <!-- Seletor de Tópicos -->
+    <label for="topic-select">Escolha um Tópico:</label>
+    <select id="topic-select" name="topic">
+        <option value="">Selecione um Tópico...</option>
+        <option value="PAINEL">PAINEL</option>
+        <option value="COMPUTADOR

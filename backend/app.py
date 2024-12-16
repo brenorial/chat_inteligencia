@@ -150,7 +150,7 @@ def atualizar_topicos(opcao_grupo):
 
 def exibir_mensagem(estado):
     if estado == "Concluído":
-        resposta_label.configure(text="Obrigado, Chat BRA agradece")
+        resposta_label.configure(text="Obrigado, RialBot agradece")
     else:
         resposta_label.configure(text="Me chame no wpp")
 
@@ -189,10 +189,10 @@ def mostrar_resposta(resposta):
     resposta_label.config(text=resposta)
 
 app = ctk.CTk()
-app.title("Dúvidas Frequentes (FAQ)")
+app.title("RialBot")
 app.geometry("600x650")
 
-titulo = ctk.CTkLabel(app, text="Dúvidas Frequentes (FAQ)", font=("Arial", 18, "bold"))
+titulo = ctk.CTkLabel(app, text="RialBot", font=("Arial", 18, "bold"))
 titulo.pack(pady=15)
 
 grupo_selecionado = ctk.StringVar()
