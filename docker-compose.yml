@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  rialbot:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@db/postgres
+    volumes:
+      - .:/app
+    networks:
+      - rialbot_network
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: rialbot_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - rialbot_network
+
+volumes:
+  pgdata:
+
+networks:
+  rialbot_network:
+    driver: bridge
