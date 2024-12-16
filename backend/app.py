@@ -122,6 +122,18 @@ faq_data = {
 }
 
 
+# Função para mostrar a tela principal
+def iniciar_faq():
+    nome_usuario = nome_usuario_entry.get()
+    if not nome_usuario:
+        messagebox.showwarning("Aviso", "Por favor, insira seu nome!")
+        return
+    
+    saudacao_label.configure(text=f"Olá, {nome_usuario}!")
+    tela_inicio.pack_forget()
+    tela_faq.pack(fill="both", expand=True)
+
+
 def mostrar_faq():
     grupo = grupo_selecionado.get()
     topico = topico_selecionado.get()
@@ -169,6 +181,8 @@ def marcar_todas_como_soluconadas():
     exibir_mensagem("Concluído")
 
 def marcar_todas_como_nao_soluconadas():
+    nome_usuario = nome_usuario_entry.get()  
+    print(f"Nome do usuário: {nome_usuario}")
     for checkbox, var in solucao_vars:
         var.set("Não concluído")
         checkbox.configure(state="disabled")
@@ -177,7 +191,7 @@ def marcar_todas_como_nao_soluconadas():
     subgrupo = topico_selecionado.get()
     checkboxes_marcados = [check.cget('text') for check, var in solucao_vars if var.get() == "Não concluído"]
     
-    mensagem_wpp = f"Breno, não consegui solucionar o problema {grupo} {subgrupo}, tentei {', '.join(checkboxes_marcados)}"
+    mensagem_wpp = f"Oie, Breno!\nAqui quem fala é {nome_usuario}\nNão consegui solucionar o problema {grupo} acerca de {subgrupo}.\nTentei as seguintes ações: {', '.join(checkboxes_marcados)}"
     
     numero_whatsapp = os.getenv("WHATSAPP_NUMBER")
 
@@ -188,40 +202,61 @@ def marcar_todas_como_nao_soluconadas():
 def mostrar_resposta(resposta):
     resposta_label.config(text=resposta)
 
+
+# Configuração do App
 app = ctk.CTk()
 app.title("RialBot")
 app.geometry("600x650")
 
-titulo = ctk.CTkLabel(app, text="RialBot", font=("Arial", 18, "bold"))
+# Tela Inicial - Qual seu nome?
+tela_inicio = ctk.CTkFrame(app)
+tela_inicio.pack(fill="both", expand=True)
+
+pergunta_label = ctk.CTkLabel(tela_inicio, text="Qual seu nome?", font=("Arial", 18, "bold"))
+pergunta_label.pack(pady=20)
+
+nome_usuario_entry = ctk.CTkEntry(tela_inicio, font=("Arial", 12))
+nome_usuario_entry.pack(pady=5)
+
+botao_iniciar = ctk.CTkButton(tela_inicio, text="Iniciar", command=iniciar_faq)
+botao_iniciar.pack(pady=10)
+
+# Tela FAQ
+tela_faq = ctk.CTkFrame(app)
+
+titulo = ctk.CTkLabel(tela_faq, text="RialBot", font=("Arial", 18, "bold"))
 titulo.pack(pady=15)
 
+saudacao_label = ctk.CTkLabel(tela_faq, text="", font=("Arial", 12))
+saudacao_label.pack(pady=10)
+
 grupo_selecionado = ctk.StringVar()
-ctk.CTkLabel(app, text="Selecione um Grupo:", font=("Arial", 12)).pack(pady=5)
-menu_grupo = ctk.CTkOptionMenu(app, variable=grupo_selecionado, values=list(faq_data.keys()), command=atualizar_topicos)
+ctk.CTkLabel(tela_faq, text="Selecione um Grupo:", font=("Arial", 12)).pack(pady=5)
+menu_grupo = ctk.CTkOptionMenu(tela_faq, variable=grupo_selecionado, values=list(faq_data.keys()), command=atualizar_topicos)
 menu_grupo.pack(pady=10)
 
 topico_selecionado = ctk.StringVar()
-ctk.CTkLabel(app, text="Selecione um Tópico:", font=("Arial", 12)).pack(pady=5)
-menu_topico = ctk.CTkOptionMenu(app, variable=topico_selecionado, values=[])
+ctk.CTkLabel(tela_faq, text="Selecione um Tópico:", font=("Arial", 12)).pack(pady=5)
+menu_topico = ctk.CTkOptionMenu(tela_faq, variable=topico_selecionado, values=[])
 menu_topico.pack(pady=10)
 
-botao_exibir = ctk.CTkButton(app, text="Exibir Informações", command=mostrar_faq)
+botao_exibir = ctk.CTkButton(tela_faq, text="Exibir Informações", command=mostrar_faq)
 botao_exibir.pack(pady=10)
 
-solucao_frame = ctk.CTkFrame(app)
+solucao_frame = ctk.CTkFrame(tela_faq)
 solucao_frame.pack(pady=10, padx=20, fill="both")
 solucao_frame.pack(fill="both", expand=True)
 
-resposta_label = ctk.CTkLabel(app, text="", font=("Arial", 12, "bold"))
+resposta_label = ctk.CTkLabel(tela_faq, text="", font=("Arial", 12, "bold"))
 resposta_label.pack(pady=5)
 
 solucao_vars = []
 ultimo_checkbox = ctk.IntVar(value=-1)
 
-botao_marcar_todas_soluconadas = ctk.CTkButton(app, text="Solucionado", command=marcar_todas_como_soluconadas)
+botao_marcar_todas_soluconadas = ctk.CTkButton(tela_faq, text="Solucionado", command=marcar_todas_como_soluconadas)
 botao_marcar_todas_soluconadas.pack(pady=10)
 
-botao_marcar_todas_nao_soluconadas = ctk.CTkButton(app, text="Não Solucionado", command=marcar_todas_como_nao_soluconadas)
+botao_marcar_todas_nao_soluconadas = ctk.CTkButton(tela_faq, text="Não Solucionado", command=marcar_todas_como_nao_soluconadas)
 botao_marcar_todas_nao_soluconadas.pack(pady=10)
 
 app.mainloop()
